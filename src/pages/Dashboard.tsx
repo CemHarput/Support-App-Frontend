@@ -31,20 +31,10 @@ const Dashboard = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      console.log("title:", title, "type:", typeof title);
-      console.log(
-        "description:",
-        description,
-        "description",
-        typeof description
-      );
-
-      console.log("Kategori ID:", category);
-      console.log("Tip:", typeof category);
       await api.post("/v1/tickets", {
-        title,
+        heading: title,
         description,
-        category,
+        categoryId: category,
       });
       alert("Talep oluşturuldu!");
       setTitle("");
