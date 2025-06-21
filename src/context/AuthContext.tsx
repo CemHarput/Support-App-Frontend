@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     if (token) {
       try {
         const decoded: User = jwtDecode(token);
+        console.log("Decoded Token:", decoded);
         setUser(decoded);
       } catch (error) {
         console.error("Invalid token");

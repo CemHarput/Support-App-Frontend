@@ -15,7 +15,7 @@ const AdminPanel = () => {
   const [responseMap, setResponseMap] = useState<Record<number, string>>({});
 
   const fetchTickets = async () => {
-    const res = await api.get("/tickets");
+    const res = await api.get("/v1/tickets");
     setTickets(res.data);
   };
 
@@ -25,7 +25,7 @@ const AdminPanel = () => {
 
   const handleUpdate = async (ticketId: number, status: string) => {
     const response = responseMap[ticketId];
-    await api.put(`/tickets/${ticketId}`, {
+    await api.put(`/v1/tickets/${ticketId}`, {
       response,
       status,
     });

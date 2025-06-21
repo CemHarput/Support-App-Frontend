@@ -1,16 +1,47 @@
-import { useState } from "react";
-import { Container, Typography, TextField, Button, Box } from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  MenuItem,
+} from "@mui/material";
 import api from "../api/axios";
+import { Category } from "../interfaces/Category";
 
 const Dashboard = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<number | "">("");
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get<Category[]>("/v1/categories");
+        setCategories(res.data);
+      } catch (err) {
+        console.error("Kategori çekilemedi", err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post("/tickets", {
+      console.log("title:", title, "type:", typeof title);
+      console.log(
+        "description:",
+        description,
+        "description",
+        typeof description
+      );
+
+      console.log("Kategori ID:", category);
+      console.log("Tip:", typeof category);
+      await api.post("/v1/tickets", {
         title,
         description,
         category,
@@ -47,12 +78,19 @@ const Dashboard = () => {
           onChange={(e) => setDescription(e.target.value)}
         />
         <TextField
+          select
           label="Kategori"
           fullWidth
           margin="normal"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        />
+          onChange={(e) => setCategory(Number(e.target.value))}
+        >
+          {categories.map((cat) => (
+            <MenuItem key={cat.id} value={cat.id}>
+              {cat.name}
+            </MenuItem>
+          ))}
+        </TextField>
         <Button type="submit" variant="contained" sx={{ mt: 2 }}>
           Gönder
         </Button>

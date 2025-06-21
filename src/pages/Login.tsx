@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import { AuthResponse } from "../interfaces/AuthResponse";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -18,8 +19,17 @@ const Login = () => {
         username,
         password,
       });
+
       login(response.data.token);
-      navigate("/dashboard");
+
+      const decoded: any = jwtDecode(response.data.token);
+      const role = decoded.roles?.[0]?.authority || decoded.role || "";
+
+      if (role === "ROLE_ADMIN" || role === "ADMIN") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
       alert("Login failed!");
     }
