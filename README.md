@@ -19,3 +19,6 @@ npm install
 
 # Geliştirme sunucusunu başlatın
 npm start
+
+#Backend root endpoint
+REACT_APP_API_URL=http://localhost:8081/api
