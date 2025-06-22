@@ -10,7 +10,6 @@ import {
 import api from "../api/axios";
 import { Category } from "../interfaces/Category";
 import { Ticket } from "../interfaces/Ticket";
-import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const [title, setTitle] = useState("");
@@ -18,7 +17,6 @@ const Dashboard = () => {
   const [category, setCategory] = useState<number | "">("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const { user } = useAuth();
 
   const fetchCategories = async () => {
     try {
@@ -101,7 +99,7 @@ const Dashboard = () => {
         </Button>
       </Box>
 
-      <Typography variant="h6" mb={2}>
+      <Typography variant="h6" mb={2} mt={2}>
         Taleplerim
       </Typography>
       {tickets.length === 0 ? (

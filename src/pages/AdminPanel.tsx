@@ -16,7 +16,6 @@ const AdminPanel = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [responseMap, setResponseMap] = useState<Record<number, string>>({});
   const [selectedStatus, setSelectedStatus] = useState("ALL");
-
   const fetchTickets = async () => {
     const res = await api.get("/v1/tickets");
     setTickets(res.data);
