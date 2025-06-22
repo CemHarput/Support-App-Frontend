@@ -5,4 +5,5 @@ export interface Ticket {
   status: "OPEN" | "ANSWERED" | "CLOSED";
   categoryName: string;
   response?: string;
+  answer?: string;
 }
