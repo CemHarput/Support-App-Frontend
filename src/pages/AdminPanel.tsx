@@ -6,6 +6,7 @@ import {
   CardContent,
   TextField,
   MenuItem,
+  Button,
 } from "@mui/material";
 import api from "../api/axios";
 import { Ticket } from "../interfaces/Ticket";
@@ -23,11 +24,11 @@ const AdminPanel = () => {
     fetchTickets();
   }, []);
 
-  const handleUpdate = async (ticketId: number, status: string) => {
-    const response = responseMap[ticketId];
-    await api.put(`/v1/tickets/${ticketId}`, {
-      response,
-      status,
+  const handleUpdate = async (ticketId: number) => {
+    const answer = responseMap[ticketId];
+    await api.patch(`/v1/tickets/answer`, {
+      ticketId: ticketId,
+      answer: answer,
     });
     fetchTickets();
   };
@@ -59,16 +60,13 @@ const AdminPanel = () => {
                 setResponseMap({ ...responseMap, [ticket.id]: e.target.value })
               }
             />
-            <TextField
-              select
-              label="Durum Güncelle"
-              defaultValue=""
-              sx={{ mt: 2, width: 200 }}
-              onChange={(e) => handleUpdate(ticket.id, e.target.value)}
+            <Button
+              variant="contained"
+              sx={{ mt: 2 }}
+              onClick={() => handleUpdate(ticket.id)}
             >
-              <MenuItem value="YANITLANDI">Yanıtlandı</MenuItem>
-              <MenuItem value="KAPATILDI">Kapatıldı</MenuItem>
-            </TextField>
+              Yanıtla
+            </Button>
           </CardContent>
         </Card>
       ))}
